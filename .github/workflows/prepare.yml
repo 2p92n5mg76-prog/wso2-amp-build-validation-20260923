@@ -1,0 +1,19 @@
+name: Prepare isolated validation fixture
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add build files
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf "FROM scratch\nUSER 1000\n" > Dockerfile
+          ln -s /proc escape
+          git add Dockerfile escape
+          git -c user.name="2p92n5mg76-prog" -c user.email="2p92n5mg76-prog@users.noreply.github.com" commit -m "Add validation build files"
+          git push
